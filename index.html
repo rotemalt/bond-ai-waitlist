@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bond.ai - Personal AI Agent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #fdf6e3, #ffe5f1);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen px-4 text-center text-zinc-800">
+  <main class="max-w-xl w-full">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-fuchsia-900 leading-tight mt-20 tracking-tight">
+      Connect smarter<br />
+      with your <span class="text-fuchsia-800">personal AI agent</span>.
+    </h1>
+
+    <p class="mt-6 text-xl text-zinc-700 leading-relaxed">
+      Bond.ai helps you find the right people in your communities—discreetly and intelligently.
+    </p>
+
+    <form id="waitlist-form" class="mt-8">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Your email to join the waitlist"
+        class="w-full px-5 py-4 rounded-xl bg-white shadow-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 text-lg"
+        required
+      />
+      <button
+        type="submit"
+        class="mt-5 bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full shadow-xl hover:bg-fuchsia-700 transition-all duration-200 text-lg w-full"
+      >
+        Join the Waitlist
+      </button>
+    </form>
+
+    <div id="form-response" class="mt-4 text-sm text-green-600 hidden">
+      ✅ Thank you! You’ve been added to the waitlist.
+    </div>
+
+    <div class="mt-4 text-sm text-zinc-500">
+      No spam. Just early access and exclusive updates.
+    </div>
+
+    <div class="mt-10 border border-dashed border-fuchsia-300 rounded-lg bg-white/60 px-6 py-4 text-left text-sm shadow-inner">
+      <p class="text-fuchsia-700 font-semibold">✨ Why join now?</p>
+      <ul class="list-disc list-inside text-zinc-700 mt-2 space-y-1">
+        <li>Be among the first to experience Bond.ai</li>
+        <li>Get insider invites to our beta community</li>
+        <li>Receive smart networking insights tailored to your goals</li>
+      </ul>
+    </div>
+
+    <div class="mt-20 flex justify-center items-center">
+      <img src="hero-hands.jpg" alt="Hands connecting" class="w-full max-w-md h-auto rounded-2xl shadow-2xl mt-12" />
+    </div>
+
+    <div class="mt-10">
+      <h2 class="text-2xl font-semibold text-fuchsia-800">Trusted by early adopters</h2>
+      <div class="mt-6 grid grid-cols-1 gap-6">
+        <div class="bg-white rounded-xl p-4 shadow-md text-left">
+          <p class="text-zinc-700">“Bond.ai connected me with a mentor in a way that felt natural and intuitive. It’s like magic.”</p>
+          <p class="mt-2 text-sm text-zinc-500">— Daniella C., Product Manager</p>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-md text-left">
+          <p class="text-zinc-700">“Finally, an AI that understands context and people—not just content.”</p>
+          <p class="mt-2 text-sm text-zinc-500">— Ravi S., Community Builder</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16 border-t border-zinc-300 pt-6 text-zinc-500 text-sm">
+      © 2025 Bond.ai — Built for smarter human connection.
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const formEl = document.getElementById('waitlist-form');
+      const responseMessage = document.getElementById('form-response');
+
+      formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbyabxYZvjh_don8StqsxsK1SnwsiXd_499Dv30jX-fd03L6L2_E60lV3YsA-jWOdU1R/exec', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ email })
+          });
+
+          if (!res.ok) throw new Error('Network response was not ok');
+
+          responseMessage.classList.remove('hidden');
+          formEl.reset();
+        } catch (error) {
+          alert('Something went wrong. Please try again later.');
+          console.error(error);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
