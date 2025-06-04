@@ -1,44 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bond.ai - Personal AI Agent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bond.ai - Claim your BondLink</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
     body {
       background: linear-gradient(to bottom right, #fdf6e3, #ffe5f1);
       font-family: 'Space Grotesk', sans-serif;
     }
+
+    /* Ripple/glow animation for button */
+    @keyframes rippleGlow {
+      0% {
+        box-shadow: 0 0 5px 2px rgba(219, 39, 119, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 20px 8px rgba(219, 39, 119, 0.4);
+      }
+      100% {
+        box-shadow: 0 0 5px 2px rgba(219, 39, 119, 0.7);
+      }
+    }
+
+    .ripple-glow {
+      animation: rippleGlow 2.5s infinite ease-in-out;
+    }
+
+    /* Connecting dots animation */
+    .network-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      gap: 1.5rem;
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      background: #db2777;
+      border-radius: 50%;
+      position: relative;
+      animation: pulseDot 2.5s infinite ease-in-out;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    .dot:nth-child(4) {
+      animation-delay: 0.9s;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scale(1.4);
+        opacity: 1;
+      }
+    }
+
+    /* Connecting lines */
+    .network-dots::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 7%;
+      right: 7%;
+      height: 2px;
+      background: linear-gradient(to right, #db2777 0%, #db2777 100%);
+      z-index: 0;
+    }
+
+    /* Referral info styling */
+    #referral-info {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: #9333ea; /* fuchsia-700 */
+      font-weight: 600;
+    }
+
+    /* Trust logos container */
+    #trust-logos {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    #trust-logos img {
+      height: 32px;
+      filter: grayscale(80%);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    #trust-logos img:hover {
+      filter: none;
+      opacity: 1;
+    }
+
   </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen px-4 text-center text-zinc-800">
   <main class="max-w-xl w-full">
+
+    <!-- Hero Title -->
     <h1 class="text-5xl md:text-6xl font-extrabold text-fuchsia-900 leading-tight mt-20 tracking-tight">
-      Connect smarter<br />
-      with your <span class="text-fuchsia-800">personal AI agent</span>.
+      Claim your <span class="text-fuchsia-800">BondLink</span>.<br />
+      Get early access to your AI agent.
     </h1>
 
+    <!-- Subtitle -->
     <p class="mt-6 text-xl text-zinc-700 leading-relaxed">
-      Bond.ai helps you find the right people in your communities—discreetly and intelligently.
+      Bond.ai connects you discreetly to the right people in your communities—powered by your personal AI agent.
     </p>
 
-    <form id="waitlist-form" class="mt-8">
+    <!-- Invite-only vibe -->
+    <div class="mt-8 space-y-2 text-fuchsia-700 font-semibold text-lg">
+      <p>✅ Bond.ai is currently invite-only.</p>
+      <p>✅ Join the waitlist to be among the first 1000 insiders.</p>
+      <p>✅ Move up the list by referring friends.</p>
+    </div>
+
+    <!-- Claim your BondLink form -->
+    <form id="waitlist-form" class="mt-6 relative">
       <input
         type="email"
         id="email"
         name="email"
-        placeholder="Your email to join the waitlist"
+        placeholder="Your email to claim your BondLink"
         class="w-full px-5 py-4 rounded-xl bg-white shadow-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 text-lg"
         required
       />
       <button
         type="submit"
-        class="mt-5 bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full shadow-xl hover:bg-fuchsia-700 transition-all duration-200 text-lg w-full"
+        class="mt-5 bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full shadow-xl hover:bg-fuchsia-700 transition-all duration-200 text-lg w-full ripple-glow"
       >
-        Join the Waitlist
+        Claim your BondLink
       </button>
+
+      <!-- Referral info -->
+      <div id="referral-info" class="mt-2">
+        You’re #<span id="queue-position">86</span> on the list.<br />
+        Refer 2 more friends to unlock beta access.
+      </div>
     </form>
 
     <div id="form-response" class="mt-4 text-sm text-green-600 hidden">
@@ -49,7 +170,45 @@
       No spam. Just early access and exclusive updates.
     </div>
 
-    <div class="mt-10 border border-dashed border-fuchsia-300 rounded-lg bg-white/60 px-6 py-4 text-left text-sm shadow-inner">
+    <!-- Community signals -->
+    <section class="mt-12 bg-white/70 rounded-xl p-6 shadow-inner border border-fuchsia-300 text-left text-zinc-700">
+      <h2 class="text-xl font-semibold text-fuchsia-800 mb-3">💬 Community Signals</h2>
+      <p>
+        Each BondLink is tied to a community or group. Once inside, your AI agent helps you find who matters most—without the awkward intros.
+      </p>
+    </section>
+
+    <!-- Trust signals -->
+    <section class="mt-10 text-center">
+      <p class="text-zinc-600 font-semibold mb-2">🛡️ Built on OpenAI’s technology. Privacy-first. You’re in control.</p>
+      <div id="trust-logos" aria-label="Trust logos">
+        <!-- Placeholder logos -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Claude_logo.svg" alt="Claude AI logo" title="Powered by Claude AI" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/OpenAI_Logo.svg" alt="OpenAI logo" title="Powered by OpenAI" />
+      </div>
+    </section>
+
+    <!-- Visual: Hands image -->
+    <div class="mt-10 flex justify-center items-center relative">
+      <img
+        src="assets/hero-hands.jpg"
+        alt="Hands connecting"
+        class="w-full max-w-md h-auto rounded-2xl shadow-2xl mt-12"
+      />
+      <!-- Connecting dots animation below the image -->
+    </div>
+
+    <div class="network-dots" aria-hidden="true">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- Why join now -->
+    <div
+      class="mt-14 border border-dashed border-fuchsia-300 rounded-lg bg-white/60 px-6 py-4 text-left text-sm shadow-inner"
+    >
       <p class="text-fuchsia-700 font-semibold">✨ Why join now?</p>
       <ul class="list-disc list-inside text-zinc-700 mt-2 space-y-1">
         <li>Be among the first to experience Bond.ai</li>
@@ -58,51 +217,61 @@
       </ul>
     </div>
 
-    <div class="mt-20 flex justify-center items-center">
-      <img src="assets/hero-hands.jpg" alt="Hands connecting" class="w-full max-w-md h-auto rounded-2xl shadow-2xl mt-12" />
-    </div>
-
-    <div class="mt-10">
-      <h2 class="text-2xl font-semibold text-fuchsia-800">Trusted by early adopters</h2>
-      <div class="mt-6 grid grid-cols-1 gap-6">
-        <div class="bg-white rounded-xl p-4 shadow-md text-left">
-          <p class="text-zinc-700">“Bond.ai connected me with a mentor in a way that felt natural and intuitive. It’s like magic.”</p>
-          <p class="mt-2 text-sm text-zinc-500">— Daniella C., Product Manager</p>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow-md text-left">
-          <p class="text-zinc-700">“Finally, an AI that understands context and people—not just content.”</p>
-          <p class="mt-2 text-sm text-zinc-500">— Ravi S., Community Builder</p>
-        </div>
+    <!-- Testimonials -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-semibold text-fuchsia-800 mb-6">Trusted by early adopters</h2>
+      <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto">
+        <blockquote class="bg-white rounded-xl p-4 shadow-md text-left text-zinc-700">
+          <p>“Bond.ai connected me with a mentor in a way that felt natural and intuitive. It’s like magic.”</p>
+          <footer class="mt-2 text-sm text-zinc-500">— Daniella C., Product Manager</footer>
+        </blockquote>
+        <blockquote class="bg-white rounded-xl p-4 shadow-md text-left text-zinc-700">
+          <p>“Finally, an AI that understands context and people—not just content.”</p>
+          <footer class="mt-2 text-sm text-zinc-500">— Ravi S., Community Builder</footer>
+        </blockquote>
       </div>
-    </div>
+    </section>
 
-    <div class="mt-16 border-t border-zinc-300 pt-6 text-zinc-500 text-sm">
+    <footer class="mt-16 border-t border-zinc-300 pt-6 text-zinc-500 text-sm">
       © 2025 Bond.ai — Built for smarter human connection.
-    </div>
+    </footer>
   </main>
 
   <script>
-    (function() {
+    (function () {
       const formEl = document.getElementById('waitlist-form');
       const responseMessage = document.getElementById('form-response');
+      const queuePositionEl = document.getElementById('queue-position');
+
+      // Placeholder for queue position - ideally this comes from your backend or referral logic
+      let position = 86;
 
       formEl.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
 
         try {
-          const res = await fetch('https://script.google.com/macros/s/AKfycbyabxYZvjh_don8StqsxsK1SnwsiXd_499Dv30jX-fd03L6L2_E60lV3YsA-jWOdU1R/exec', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({ email })
-          });
+          const res = await fetch(
+            'https://script.google.com/macros/s/AKfycbyabxYZvjh_don8StqsxsK1SnwsiXd_499Dv30jX-fd03L6L2_E60lV3YsA-jWOdU1R/exec',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: new URLSearchParams({ email }),
+            }
+          );
 
           if (!res.ok) throw new Error('Network response was not ok');
 
           responseMessage.classList.remove('hidden');
           formEl.reset();
+
+          // Decrement position for demo (simulate moving up the list)
+          if (position > 1) {
+            position--;
+            queuePositionEl.textContent = position;
+          }
         } catch (error) {
           alert('Something went wrong. Please try again later.');
           console.error(error);
